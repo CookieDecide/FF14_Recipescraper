@@ -1,6 +1,7 @@
 import db
 import recipe
 import argparse
+import os
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -20,6 +21,10 @@ def parse_args():
     return parser.parse_args()
 
 def main():
+    abspath = os.path.abspath(__file__)
+    dname = os.path.dirname(abspath)
+    os.chdir(dname)
+    
     args = parse_args()
     db.createDB()
     recipe.main(args)
