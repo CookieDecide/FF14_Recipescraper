@@ -1,6 +1,10 @@
 import sqlite3
+import os
 
 def createDB():
+    if not os.path.exists('../RecipeDB'):
+        os.mkdir('../RecipeDB')
+
     con = sqlite3.connect('../RecipeDB/link.db') 
     cur = con.cursor()
 
