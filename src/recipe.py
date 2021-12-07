@@ -4,6 +4,7 @@ import json
 import unicodedata
 from joblib import Parallel, delayed
 import time
+import os
 
 import sqlite3
 
@@ -175,6 +176,8 @@ def getRecipe(row):
     print(recipeDict)
 
 def main():
+    if not os.path.exists('../RecipeDB'):
+        os.mkdir('../RecipeDB')
     Parallel(n_jobs=24)(delayed(getLinks)(i) for i in range(1,196))
     Parallel(n_jobs=24, require='sharedmem')(delayed(getRecipe)(row) for row in rows)
     save()
