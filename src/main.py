@@ -1,4 +1,10 @@
 import db
-db.createDB()
 import recipe
-recipe.main()
+
+def main():
+    db.createDB()
+    recipe.main()
+
+
+if __name__ == '__main__':
+    main()

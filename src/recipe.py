@@ -54,17 +54,7 @@ LEVEL_DIFF = {
     90: [ 470, 480 ] # 560, 570
 }
 
-def remove_control_characters(s):
-    return ''.join(c for c in s if unicodedata.category(c)[0] != 'C')
-
 url = "https://na.finalfantasyxiv.com"
-con = sqlite3.connect('../RecipeDB/link.db')
-cur = con.cursor()
-
-cur.execute("SELECT * FROM links")
-
-rows = cur.fetchall()
-
 recipeListAlchemist = []
 recipeListArmorer = []
 recipeListBlacksmith = []
@@ -73,6 +63,9 @@ recipeListCulinarian = []
 recipeListGoldsmith = []
 recipeListLeatherworker = []
 recipeListWeaver = []
+
+def remove_control_characters(s):
+    return ''.join(c for c in s if unicodedata.category(c)[0] != 'C')
 
 def get(url):
     try:
@@ -174,8 +167,15 @@ def getRecipe(row):
     print("Recipe:\t")
     print(recipeDict)
 
+def getLinksfromDB():
+    con = sqlite3.connect('../RecipeDB/link.db')
+    cur = con.cursor()
+    cur.execute("SELECT * FROM links")
+    return cur.fetchall()
+
 def main():
     Parallel(n_jobs=24)(delayed(getLinks)(i) for i in range(1,196))
+    rows = getLinksfromDB()
     Parallel(n_jobs=24, require='sharedmem')(delayed(getRecipe)(row) for row in rows)
     save()
 
