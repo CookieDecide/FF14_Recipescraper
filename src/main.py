@@ -1,5 +1,4 @@
 import db
-import recipe
-
 db.createDB()
+import recipe
 recipe.main()
