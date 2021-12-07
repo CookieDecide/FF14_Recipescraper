@@ -173,7 +173,15 @@ def getLinksfromDB():
     cur.execute("SELECT * FROM links")
     return cur.fetchall()
 
-def main():
+def main(args):
+    if(args.linksonly):
+        Parallel(n_jobs=24)(delayed(getLinks)(i) for i in range(1,196))
+        return 0
+    elif(args.recipesonly):
+        rows = getLinksfromDB()
+        Parallel(n_jobs=24, require='sharedmem')(delayed(getRecipe)(row) for row in rows)
+        return 0
+
     Parallel(n_jobs=24)(delayed(getLinks)(i) for i in range(1,196))
     rows = getLinksfromDB()
     Parallel(n_jobs=24, require='sharedmem')(delayed(getRecipe)(row) for row in rows)
