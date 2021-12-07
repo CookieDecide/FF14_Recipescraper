@@ -1,7 +1,7 @@
 import sqlite3
 
 def createDB():
-    con = sqlite3.connect('link.db') 
+    con = sqlite3.connect('../RecipeDB/link.db') 
     cur = con.cursor()
 
     cur.execute('''CREATE TABLE "links" (
