@@ -5,20 +5,14 @@ def createDB():
     if not os.path.exists('../RecipeDB'):
         os.mkdir('../RecipeDB')
 
-    if not os.path.exists('../RecipeDB/link.db'):
-        con = sqlite3.connect('../RecipeDB/link.db') 
+    if not os.path.exists('../RecipeDB/recipe.db'):
+        con = sqlite3.connect('../RecipeDB/recipe.db') 
         cur = con.cursor()
-
-        cur.execute('''CREATE TABLE "links" (
-                    "link"	TEXT,
-                    PRIMARY KEY("link")
-                    );''')
                 
         cur.execute('''CREATE TABLE "recipe" (
                     "baseLevel"	INTEGER,
                     "difficulty"	INTEGER,
                     "durability"	INTEGER,
-                    "id"	TEXT,
                     "level"	INTEGER,
                     "maxQuality"	INTEGER,
                     "name"	TEXT,
@@ -26,7 +20,12 @@ def createDB():
                     "suggestedControl"	INTEGER,
                     "job"	TEXT,
                     "stars"	INTEGER,
-                    PRIMARY KEY("id")
+                    "progressDivider"	INTEGER,
+                    "progressModifier"	INTEGER,
+                    "qualityDivider"	INTEGER,
+                    "qualityModifier"	INTEGER,
+                    PRIMARY KEY("job", "name"),
+                    UNIQUE("job", "name")
                     );''')
                             
         con.commit()
